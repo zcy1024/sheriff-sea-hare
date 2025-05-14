@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
                 port: '',
                 pathname: '/v1/blobs/*',
                 search: '',
+            },
+            {
+                protocol: 'https',
+                hostname: 'archive.cetus.zone',
+                port: '',
+                pathname: '/assets/image/sui/sui.png',
+                search: '',
             }
         ],
     },
