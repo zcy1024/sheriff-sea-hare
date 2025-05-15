@@ -23,13 +23,13 @@ const {networkConfig, useNetworkVariable, useNetworkVariables} = createNetworkCo
     testnet: {
         url: getFullnodeUrl("testnet"),
         variables: {
-            Package: "0x28b4d7cfccd20c445f851dacaf44d9a56cd6cbf702f906500aadfe644e45bf32",
-            Publisher: "0x662eae353a56f4e24b9b021471ef9b926ae64a6fa4736c031fde53e420592ec4",
-            UpgradeCap: "0x45dffd3addeb544d26d237a1e0a8f6ef266344a618a012887c30fc0d1111cc3a",
-            TreasuryCap: "0x663a69c40416b59ed42574e87411e192fd83dbf7e8749215548fbbe06f3b3ab5",
-            PKList: "0xc82d12030d972741b7a40a2844cbb9ecad6f5a75483b57b7fb575116ee35d63a",
-            Profit: "0x077c25c31df9c22e7673a8fbbbbde28dfb721892e4b5fa30287396fd6fcd00b3",
-            Pool: "0x283e1fd811d303ecc49905f4f3b55a0eb673e7e22814f642394111975da54724"
+            Package: "0xf0d5d7b59c66319aa4fb6fe5eddd6983f2a547b4589965cacf4d2f8f130ba674",
+            Publisher: "0xb1b607d616ca16068f6fa9434fb244196e5557eed44ca32db9904df1e8a325eb",
+            UpgradeCap: "0xfc3850b4cf903a78f32d87a2b904c76ac7c368207ee46744160e854922098547",
+            TreasuryCap: "0xc984a9f252828e2bf0ede9bce73845336df05007fac097a65252e2138056c3b8",
+            PKList: "0x2bd1047afdca9669fea6638d97fd2ea1dbae8a515047ac5e47b827b51a1e395e",
+            Profit: "0xc78d93a0a7c3d710e7e79b30a778db6216a7c2fd66b49cc89b1b46126afe14d2",
+            Pool: "0x121c3adfe7c870039b489ef4402caa167f403e61d99828435fb671f6c76790d2"
         }
     }
 });

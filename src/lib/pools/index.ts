@@ -5,14 +5,15 @@ import {getFullnodeUrl, SuiClient} from "@mysten/sui/client";
 
 dotenv.config();
 
-const Package = "0x28b4d7cfccd20c445f851dacaf44d9a56cd6cbf702f906500aadfe644e45bf32";
-const Publisher = "0x662eae353a56f4e24b9b021471ef9b926ae64a6fa4736c031fde53e420592ec4";
-const TreasuryCap = "0x663a69c40416b59ed42574e87411e192fd83dbf7e8749215548fbbe06f3b3ab5";
+const Package = "0xf0d5d7b59c66319aa4fb6fe5eddd6983f2a547b4589965cacf4d2f8f130ba674";
+const Publisher = "0xb1b607d616ca16068f6fa9434fb244196e5557eed44ca32db9904df1e8a325eb";
+const TreasuryCap = "0xc984a9f252828e2bf0ede9bce73845336df05007fac097a65252e2138056c3b8";
+const Pool = "0x121c3adfe7c870039b489ef4402caa167f403e61d99828435fb671f6c76790d2";
 
 const suiClient = new SuiClient({url: getFullnodeUrl("testnet")});
 const keypair = Ed25519Keypair.fromSecretKey(process.env.SECRETKEY!);
 
-async function main() {
+async function create() {
     const tx = new Transaction();
     const [seahare] = tx.moveCall({
         target: `${Package}::seahare::mint`,
@@ -50,6 +51,33 @@ async function main() {
     console.log(pool!.objectId);
     console.log(pool!.objectType);
     // console.log(res.objectChanges);
+}
+
+async function burn() {
+    const tx = new Transaction();
+    tx.moveCall({
+        target: `${Package}::pool::burn_pool`,
+        typeArguments: [
+            "0x2::sui::SUI",
+            `${Package}::seahare::SEAHARE`
+        ],
+        arguments: [
+            tx.object(Publisher),
+            tx.object(Pool)
+        ]
+    });
+    const res = await suiClient.signAndExecuteTransaction({
+        transaction: tx,
+        signer: keypair
+    });
+    await suiClient.waitForTransaction({
+        digest: res.digest
+    });
+}
+
+async function main() {
+    await create();
+    // await burn();
 }
 
 main().then();

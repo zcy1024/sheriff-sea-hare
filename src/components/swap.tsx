@@ -5,26 +5,26 @@ import {useAppSelector, AppDispatch} from "@/store";
 import {useDispatch} from "react-redux";
 import Image from "next/image";
 import {ArrowDown, ArrowDownUp, Wallet} from "lucide-react";
+import {buyTx, dryRunSwap, sellTx, signAndExecuteTransaction} from "@/lib/contracts";
+import {refreshBalance, setProgressValue} from "@/store/modules/info";
+import {randomTwentyFive} from "@/lib/utils";
 
 export default function Swap() {
     const [inAmount, setInAmount] = useState<string>("");
     const [outAmount, setOutAmount] = useState<string>("0");
     const [state, setState] = useState<number>(0);
     const [swapType, setSwapType] = useState<number>(0);
+    const account = useAppSelector(state => state.info.address);
+    const publicKeyStr = useAppSelector(state => state.info.publicKeyStr);
     const swapTokenInfo = useAppSelector(state => state.info.swapTokenInfo);
     const dispatch = useDispatch<AppDispatch>();
 
-    const swapUpToDown = useCallback((amount: string) => {
-        // TODO: update the rules
-        if (swapType === 0) {
-            setOutAmount(amount ? (Number(amount) * 100).toString() : '0');
-            return;
-        }
-        setOutAmount(amount ? (Number(amount) * 99 / 10000).toString() : '0');
+    const swapUpToDown = useCallback(async (amount: string) => {
+        setOutAmount(await dryRunSwap(swapType, Number(amount) * 10 ** 9));
     }, [swapType]);
 
     useEffect(() => {
-        swapUpToDown(inAmount);
+        swapUpToDown(inAmount).then();
         setState(!inAmount ? 0 : (Number(inAmount) <= Number(swapTokenInfo[swapType].balance) ? 2 : 1));
     }, [inAmount, swapType, swapUpToDown, swapTokenInfo]);
 
@@ -51,11 +51,24 @@ export default function Swap() {
     const handleSwap = async () => {
         if (state !== 2)
             return;
+        dispatch(setProgressValue(randomTwentyFive()));
         if (swapType === 0) {
-            // TODO: swap a to b
+            await signAndExecuteTransaction(buyTx({
+                amount: Number(inAmount),
+                sender: account
+            }), window.location.hostname, publicKeyStr);
         } else if (swapType === 1) {
-            // TODO: swap b to a
+            await signAndExecuteTransaction(sellTx({
+                amount: Number(inAmount),
+                sender: account
+            }), window.location.hostname, publicKeyStr);
         }
+        dispatch(setProgressValue(36 + randomTwentyFive()));
+        dispatch(refreshBalance(account));
+        const timer = setTimeout(() => {
+            dispatch(setProgressValue(100));
+            clearTimeout(timer);
+        }, 500);
     }
 
     return (

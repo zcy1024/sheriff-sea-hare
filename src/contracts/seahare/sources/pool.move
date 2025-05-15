@@ -44,16 +44,16 @@ public fun burn_pool<CoinA, CoinB>(_: &Publisher, pool: Pool<CoinA, CoinB>, ctx:
 
 #[allow(lint(self_transfer))]
 public fun swap_a_to_b<CoinA, CoinB>(pool: &mut Pool<CoinA, CoinB>, in: Coin<CoinA>, ctx: &mut TxContext) {
-    let k = pool.a.value() * pool.b.value();
+    let k = (pool.a.value() as u128) * (pool.b.value() as u128);
     pool.a.join(in.into_balance());
-    let split_amount = pool.b.value() - k / pool.a.value();
+    let split_amount = pool.b.value() - (k / (pool.a.value() as u128) as u64);
     transfer::public_transfer(pool.b.split(split_amount).into_coin(ctx), ctx.sender());
 }
 
 #[allow(lint(self_transfer))]
 public fun swap_b_to_a<CoinA, CoinB>(pool: &mut Pool<CoinA, CoinB>, in: Coin<CoinB>, ctx: &mut TxContext) {
-    let k = pool.a.value() * pool.b.value();
+    let k = (pool.a.value() as u128) * (pool.b.value() as u128);
     pool.b.join(in.into_balance());
-    let split_amount = pool.a.value() - k / pool.b.value();
+    let split_amount = pool.a.value() - (k / (pool.b.value() as u128) as u64);
     transfer::public_transfer(pool.a.split(split_amount).into_coin(ctx), ctx.sender());
 }
