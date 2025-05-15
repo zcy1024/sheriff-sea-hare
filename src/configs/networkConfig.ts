@@ -13,15 +13,21 @@ const {networkConfig, useNetworkVariable, useNetworkVariables} = createNetworkCo
         variables: {
             Package: "",
             Publisher: "",
-            UpgradeCap: ""
+            UpgradeCap: "",
+            TreasuryCap: "",
+            PKList: "",
+            Profit: ""
         }
     },
     testnet: {
         url: getFullnodeUrl("testnet"),
         variables: {
-            Package: "",
-            Publisher: "",
-            UpgradeCap: ""
+            Package: "0x28b4d7cfccd20c445f851dacaf44d9a56cd6cbf702f906500aadfe644e45bf32",
+            Publisher: "0x662eae353a56f4e24b9b021471ef9b926ae64a6fa4736c031fde53e420592ec4",
+            UpgradeCap: "0x45dffd3addeb544d26d237a1e0a8f6ef266344a618a012887c30fc0d1111cc3a",
+            TreasuryCap: "0x663a69c40416b59ed42574e87411e192fd83dbf7e8749215548fbbe06f3b3ab5",
+            PKList: "0xc82d12030d972741b7a40a2844cbb9ecad6f5a75483b57b7fb575116ee35d63a",
+            Profit: "0x077c25c31df9c22e7673a8fbbbbde28dfb721892e4b5fa30287396fd6fcd00b3"
         }
     }
 });

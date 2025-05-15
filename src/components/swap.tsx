@@ -43,6 +43,8 @@ export default function Swap() {
         while (i + 1 < amount.length && amount[i] === '0' && amount[i + 1] !== '.')
             i = i + 1;
         const finalAmount = i < amount.length ? amount.slice(i) : '';
+        if (pointCount === 1 && Number(finalAmount) > 0 &&  Number(finalAmount) < 1e-9)
+            return;
         setInAmount(finalAmount);
     }
 
@@ -93,14 +95,14 @@ export default function Swap() {
                 <div className="flex flex-col items-start gap-2">
                     <span className="text-[#567] text-sm">You Receive</span>
                     <input className="w-full text-2xl font-bold focus:outline-none"
-                           placeholder={outAmount}/>
+                           placeholder={outAmount} disabled />
                     <div className="opacity-0">Balance</div>
                 </div>
                 <div className="flex flex-col items-end gap-2">
                     <div className="opacity-0">100000000000</div>
                     <div className="flex gap-1 items-center">
                         <Image src={swapTokenInfo.length > 0 ? swapTokenInfo[(swapType + 1) % 2].image : "https://mainnet-aggregator.hoh.zone/v1/blobs/coyfvy-BN3DELR7eAXOQ2BkJeAWNmpalN8VKATPXbjo"} alt="Swap Token 2" width={28} height={28}/>
-                        <div>{swapTokenInfo.length > 0 ? swapTokenInfo[(swapType + 1) % 2].name : "GP"}</div>
+                        <div>{swapTokenInfo.length > 0 ? swapTokenInfo[(swapType + 1) % 2].name : "SeaHare"}</div>
                     </div>
                     <div className="flex gap-1 items-center text-[#567] text-sm">
                         <Wallet size={15}/>
