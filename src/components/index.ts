@@ -4,6 +4,7 @@ import Loading from "@/components/loading";
 import Swap from "@/components/swap";
 import AddCoinType from "@/components/addCoinType";
 import RandomOpponent from "@/components/randomOpponent";
+import PKInfo from "@/components/pkInfo/pkInfo";
 
 export {
     Navigation,
@@ -12,4 +13,5 @@ export {
     Swap,
     AddCoinType,
     RandomOpponent,
+    PKInfo
 }

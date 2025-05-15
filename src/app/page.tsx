@@ -1,6 +1,6 @@
 'use client'
 
-import {AddCoinType, Loading, Navigation, RandomOpponent, Swap} from "@/components";
+import {AddCoinType, Loading, Navigation, PKInfo, RandomOpponent, Swap} from "@/components";
 import {useAppSelector, AppDispatch} from "@/store";
 import {useDispatch} from "react-redux";
 import {refreshAll, setProgressValue} from "@/store/modules/info";
@@ -44,7 +44,7 @@ export default function Home() {
                         {
                             navTab === "Swap" && <Swap /> ||
                             <div className="flex flex-col items-center">
-                                <div className="relative flex flex-col gap-5 items-center h-36 w-full p-2 bg-[#f9f9f9] rounded-xl border-2 hover:border-[#35a1f7]">
+                                <div className="relative flex flex-col gap-5 items-center h-36 w-full p-2 bg-[#f9f9f9] rounded-xl border-2 hover:border-[#0a0e0f] transition-all">
                                     <h1 className="text-5xl font-bold subpixel-antialiased tracking-wider">Sheriff SeaHare</h1>
                                     <div className="flex gap-3 items-center">
                                         <Input type="text" placeholder="ObjectID" size={50} onChange={handleChangeInput} />
@@ -58,6 +58,9 @@ export default function Home() {
                                     </div>
                                 </div>
                                 {
+                                    <div className="w-full">
+                                        <PKInfo isOdd={false} />
+                                    </div>
                                     // infos.map((info, index) => {
                                     //     return (
                                     //         <div key={index} className="w-full">
