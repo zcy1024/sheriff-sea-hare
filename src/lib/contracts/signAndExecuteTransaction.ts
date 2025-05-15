@@ -17,3 +17,11 @@ export default async function signAndExecuteTransaction(tx: Transaction, rpId: s
         console.error(error);
     }
 }
+
+export async function passDevInspect(tx: Transaction, sender: string) {
+    const res = await suiClient.devInspectTransactionBlock({
+        transactionBlock: tx,
+        sender
+    });
+    return res.effects.status.status === "success";
+}

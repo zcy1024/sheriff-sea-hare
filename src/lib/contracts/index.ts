@@ -1,6 +1,9 @@
 import getBalance from "@/lib/contracts/getBalance";
 import {buyTx, sellTx, dryRunSwap} from "@/lib/contracts/swap"
-import signAndExecuteTransaction from "@/lib/contracts/signAndExecuteTransaction";
+import signAndExecuteTransaction, {passDevInspect} from "@/lib/contracts/signAndExecuteTransaction";
+import {addCoinTypeTx} from "@/lib/contracts/addCoinTypeTx";
+import {randomOpponentTx} from "@/lib/contracts/randomOpponentTx";
+import getCoinMetadata from "@/lib/contracts/getCoinMetadata";
 
 export {
     getBalance,
@@ -8,4 +11,8 @@ export {
     sellTx,
     dryRunSwap,
     signAndExecuteTransaction,
+    passDevInspect,
+    addCoinTypeTx,
+    randomOpponentTx,
+    getCoinMetadata,
 }
