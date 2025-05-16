@@ -4,7 +4,8 @@ import {createSlice, ThunkDispatch, UnknownAction} from "@reduxjs/toolkit";
 import {Dispatch} from "react";
 import {PasskeyKeypair} from "@mysten/sui/keypairs/passkey";
 import {getPasskeyProvider} from "@/configs/networkConfig";
-import {getBalance} from "@/lib/contracts";
+import {getBalance, getCoinMetadata, getPKInfos, PKInfoType} from "@/lib/contracts";
+import {CoinMetadata} from "@mysten/sui/client";
 
 export type SwapTokenType = {
     name: string,
@@ -19,6 +20,10 @@ export type InitialStateType = {
     navTab: string,
     progressValue: number,
     swapTokenInfo: [SwapTokenType, SwapTokenType],
+    pkInfos: PKInfoType[],
+    coinInfos: {
+        [key: string]: CoinMetadata
+    }
 }
 
 const initialState: InitialStateType = {
@@ -39,6 +44,8 @@ const initialState: InitialStateType = {
             balance: 0
         }
     ],
+    pkInfos: [],
+    coinInfos: {}
 }
 
 const infoStore = createSlice({
@@ -62,6 +69,14 @@ const infoStore = createSlice({
         setProgressValue(state, action: {payload: number}) {
             state.progressValue = action.payload;
         },
+        setPKInfos(state, action: {payload: PKInfoType[]}) {
+            state.pkInfos = action.payload;
+        },
+        setCoinInfos(state, action: {payload: {
+            [key: string]: CoinMetadata
+        }}) {
+            state.coinInfos = action.payload;
+        }
     }
 });
 
@@ -75,11 +90,14 @@ const refreshAll = (publicKeyStr: string | null | undefined) => {
             dispatch(setAddress(keypair.toSuiAddress()));
             dispatch(setBalance(await getBalance(keypair.toSuiAddress())));
             dispatch(setPublicKeyStr(publicKeyStr));
-            return;
+        } else {
+            dispatch(setAddress(""));
+            dispatch(setBalance(["0", "0"]));
+            dispatch(setPublicKeyStr(""));
         }
-        dispatch(setAddress(""));
-        dispatch(setBalance(["0", "0"]));
-        dispatch(setPublicKeyStr(""));
+        const pkInfos = await getPKInfos(null);
+        dispatch(setPKInfos(pkInfos));
+        dispatch(setCoinInfos(await getCoinInfos(pkInfos)));
     }
 }
 
@@ -91,12 +109,29 @@ const refreshBalance = (owner: string) => {
     }
 }
 
+async function getCoinInfos(pkInfos: PKInfoType[]) {
+    const infos: {
+        [key: string]: CoinMetadata
+    } = {};
+    for (const pkInfo of pkInfos) {
+        if (!infos.hasOwnProperty(pkInfo.coin1.coinType)) {
+            infos[pkInfo.coin1.coinType] = (await getCoinMetadata(pkInfo.coin1.coinType))!;
+        }
+        if (!infos.hasOwnProperty(pkInfo.coin2.coinType)) {
+            infos[pkInfo.coin2.coinType] = (await getCoinMetadata(pkInfo.coin2.coinType))!;
+        }
+    }
+    return infos;
+}
+
 const {
     setAddress,
     setBalance,
     setPublicKeyStr,
     setNavTab,
     setProgressValue,
+    setPKInfos,
+    setCoinInfos
 } = infoStore.actions;
 
 export {
@@ -104,7 +139,9 @@ export {
     setBalance,
     setPublicKeyStr,
     setNavTab,
-    setProgressValue
+    setProgressValue,
+    setPKInfos,
+    setCoinInfos
 };
 
 export {
