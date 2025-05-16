@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sheriff SeaHare
 
-## Getting Started
+## Introduction
 
-First, run the development server:
+The Supreme Judge of the Ocean.
+
+Add and randomly match opponents for a token, and the winner is determined by public voting.
+
+## Story
+
+All coins are equal in my eyes, just like all marine creatures need to wait for my judgment!
+
+That’s right, I’m a sheriff – a sea hare.
+
+Any two coins can be compared together, the only criterion is your choice. If you like it, vote. For three days, the loser will be branded with shame by me.
+
+What? You ask what to do if someone messes up?
+
+- I can spray purple ink to form a detection barrier or even poison the enemy.
+- My unique photosynthesis and powerful regeneration ability can support a protracted battle.
+- Mine...
+
+Okay, okay, no matter how powerful I am as a sea hare, there will inevitably be some fish that slip through the net.
+
+But I still have the most powerful killer move.
+
+That’s you!
+
+You are the unstoppable sword of sea hare.
+
+You offer your vote only to continue the hope for the meme market.
+
+Some of you are here to change the world.
+
+Some of you are here to explore the mysteries of memes.
+
+Some of you are here for the ones you love.
+
+Some of you are here to fulfill your own meaning...
+
+We will fight side by side to restore the reputation of Memecoin!
+
+Tomorrow comes
+
+Thanks to you
+
+Expedition Sui
+
+## Usage
+
+### Online
+
+[Walrus](https://seahare.wal.app/)(If it has not expired)
+
+[Vercel](https://sheriff-sea-hare.vercel.app/)
+
+### Local
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
+bun run dev
+# the above two commands can be replaced with your favorite package management tool
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
