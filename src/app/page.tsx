@@ -5,13 +5,15 @@ import {useAppSelector, AppDispatch} from "@/store";
 import {useDispatch} from "react-redux";
 import {refreshAll, setProgressValue} from "@/store/modules/info";
 import {randomTwentyFive} from "@/lib/utils";
-import {ChangeEvent, useEffect} from "react";
+import {useEffect, useState} from "react";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {Search} from "lucide-react";
 import {Input} from "@/components/ui/input";
+import {PKInfoType} from "@/lib/contracts";
 
 export default function Home() {
     const navTab = useAppSelector(state => state.info.navTab);
+    const pkInfos = useAppSelector(state => state.info.pkInfos);
     const progressValue = useAppSelector(state => state.info.progressValue);
     const dispatch = useDispatch<AppDispatch>();
     useEffect(() => {
@@ -26,14 +28,20 @@ export default function Home() {
         }, 1000);
     }, [dispatch]);
 
-    const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
-        // const infos = navTab === "Main" ? poolInfos : endedPoolInfos;
-        // if (!e.target.value)
-        //     setInfos(infos);
-        // else
-        //     setInfos(infos.filter(info => info.id.search(e.target.value) !== -1));
-    }
+    const [ingInfos, setIngInfos] = useState<PKInfoType[]>([]);
+    const [endedInfos, setEndedInfos] = useState<PKInfoType[]>([]);
+    useEffect(() => {
+        const curTime = new Date().getTime();
+        setIngInfos(pkInfos.filter(info => info.endTime > curTime));
+        setEndedInfos(pkInfos.filter(info => info.endTime <= curTime));
+    }, [pkInfos]);
+
+    const [infos, setInfos] = useState<PKInfoType[]>([]);
+    const [search, setSearch] = useState<string>("");
+    useEffect(() => {
+        const infos = navTab === "Ended" ? endedInfos : ingInfos;
+        setInfos(!search ? infos : infos.filter(info => info.id.search(search) !== -1));
+    }, [navTab, ingInfos, endedInfos, search]);
 
     return (
         <div className="relative w-screen h-screen bg-[#f1f2f5] text-[#0a0e0f]">
@@ -47,7 +55,7 @@ export default function Home() {
                                 <div className="relative flex flex-col gap-5 items-center h-36 w-full p-2 bg-[#f9f9f9] rounded-xl border-2 hover:border-[#0a0e0f] transition-all">
                                     <h1 className="text-5xl font-bold subpixel-antialiased tracking-wider">Sheriff SeaHare</h1>
                                     <div className="flex gap-3 items-center">
-                                        <Input type="text" placeholder="ObjectID" size={50} onChange={handleChangeInput} />
+                                        <Input type="text" placeholder="ObjectID" size={50} value={search} onChange={e => setSearch(e.target.value)} />
                                         <Search size={24} className="cursor-pointer text-[#afb3b5] active:text-[#196ae3]" />
                                     </div>
                                     <div className="absolute bottom-1 right-1">
@@ -58,16 +66,13 @@ export default function Home() {
                                     </div>
                                 </div>
                                 {
-                                    <div className="w-full">
-                                        <PKInfo isOdd={false} />
-                                    </div>
-                                    // infos.map((info, index) => {
-                                    //     return (
-                                    //         <div key={index} className="w-full">
-                                    //             <LotteryCard info={info} isOdd={index % 2 === 1} />
-                                    //         </div>
-                                    //     );
-                                    // })
+                                    infos.map((info, index) => {
+                                        return (
+                                            <div key={index} className="w-full">
+                                                <PKInfo info={info} isOdd={index % 2 === 1} />
+                                            </div>
+                                        );
+                                    })
                                 }
                             </div>
                         }
