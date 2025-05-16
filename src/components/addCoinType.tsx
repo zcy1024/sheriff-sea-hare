@@ -16,7 +16,7 @@ import {useState} from "react";
 import {addCoinTypeTx, getCoinMetadata, passDevInspect, signAndExecuteTransaction} from "@/lib/contracts";
 import {useAppSelector, AppDispatch} from "@/store";
 import {useDispatch} from "react-redux";
-import {setProgressValue} from "@/store/modules/info";
+import {refreshAll, setProgressValue} from "@/store/modules/info";
 import {randomTwentyFive} from "@/lib/utils";
 
 export default function AddCoinType() {
@@ -32,7 +32,7 @@ export default function AddCoinType() {
             setShowErr(true);
             return;
         }
-        dispatch(setProgressValue(randomTwentyFive()));
+        dispatch(setProgressValue(randomTwentyFive() % 10));
         const tx = addCoinTypeTx({
             coinType: coin
         });
@@ -41,9 +41,17 @@ export default function AddCoinType() {
             dispatch(setProgressValue(100));
             return;
         }
-        dispatch(setProgressValue(36 + randomTwentyFive()));
+        dispatch(setProgressValue(10 + randomTwentyFive() % 15));
         await signAndExecuteTransaction(tx, window.location.hostname, publicKeyStr);
-        dispatch(setProgressValue(100));
+        dispatch(refreshAll(publicKeyStr));
+        let basicValue = 25;
+        const intervalTimer = setInterval(() => {
+            const targetValue = basicValue === 75 ? 100 : basicValue + randomTwentyFive();
+            basicValue += 25;
+            dispatch(setProgressValue(targetValue));
+            if (targetValue >= 100)
+                clearInterval(intervalTimer);
+        }, 333);
     }
 
     return (
