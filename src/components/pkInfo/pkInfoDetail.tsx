@@ -90,7 +90,7 @@ export default function PKInfoDetail({info, isOdd, isLeft}: {info: PKInfoType, i
                     <div className={"flex justify-between h-full w-full " + (isLeft ? "" : "flex-row-reverse")}>
                         <div className={"flex flex-col gap-3 h-full w-1/2 " + (isLeft ? "items-start" : "items-end")}>
                             <div className="flex gap-2 items-center">
-                                <span className="text-3xl font-bold">{innerInfo.coinInfo?.name}</span>
+                                <span className="text-3xl font-bold">{innerInfo.coinInfo && innerInfo.coinInfo.name.length <= 12 ? innerInfo.coinInfo?.name : innerInfo.coinInfo?.name.slice(0, 9) + "..."}</span>
                                 {/*  Image  */}
                             </div>
                             <span className={"flex-1 w-full text-wrap " + (isLeft ? "" : "text-right")}>{innerInfo.coinInfo?.description}</span>
