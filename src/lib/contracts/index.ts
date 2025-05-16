@@ -5,6 +5,7 @@ import {addCoinTypeTx} from "@/lib/contracts/addCoinTypeTx";
 import {randomOpponentTx} from "@/lib/contracts/randomOpponentTx";
 import getCoinMetadata from "@/lib/contracts/getCoinMetadata";
 import getPKInfos, {PKInfoType} from "@/lib/contracts/getPKInfos";
+import getPKListTypes from "@/lib/contracts/getPKListTypes";
 
 export type {
     PKInfoType,
@@ -21,4 +22,5 @@ export {
     randomOpponentTx,
     getCoinMetadata,
     getPKInfos,
+    getPKListTypes
 }

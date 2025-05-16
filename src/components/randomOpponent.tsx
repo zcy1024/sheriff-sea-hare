@@ -11,7 +11,15 @@ import {
 } from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
-import {Input} from "@/components/ui/input";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import {useState} from "react";
 import {AppDispatch, useAppSelector} from "@/store";
 import {useDispatch} from "react-redux";
@@ -25,6 +33,8 @@ export default function RandomOpponent() {
     const [open, setOpen] = useState<boolean>(false);
     const account = useAppSelector(state => state.info.address);
     const publicKeyStr = useAppSelector(state => state.info.publicKeyStr);
+    const pkListTypes = useAppSelector(state => state.info.pkListTypes);
+    const coinInfos = useAppSelector(state => state.info.coinInfos);
     const dispatch = useDispatch<AppDispatch>();
 
     const handleClick = async () => {
@@ -70,12 +80,24 @@ export default function RandomOpponent() {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex flex-col gap-2 items-start">
-                    <Label>Coin Type</Label>
-                    <Input size={36} placeholder="0x2::sui::SUI" value={coin} onChange={(e) => setCoin(e.target.value)} />
+                    <Label>Coin</Label>
+                    <Select onValueChange={setCoin}>
+                        <SelectTrigger className="w-full cursor-pointer">
+                            <SelectValue placeholder="Choose Coin" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Coin</SelectLabel>
+                                {
+                                    pkListTypes.map(coinType => <SelectItem className="cursor-pointer" key={coinType} value={coinType}>{coinInfos[coinType].name}</SelectItem>)
+                                }
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
                 </div>
                 <DialogFooter className="flex gap-2 items-center">
                     {
-                        showErr && <span className="text-xs text-red-600">Please Input Correct Coin Type(which has added)</span>
+                        showErr && <span className="text-xs text-red-600">Please Choose One Coin</span>
                     }
                     <Button variant="default" className="cursor-pointer" onClick={handleClick}>Confirm</Button>
                 </DialogFooter>

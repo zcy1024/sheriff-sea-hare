@@ -4,7 +4,7 @@ import {createSlice, ThunkDispatch, UnknownAction} from "@reduxjs/toolkit";
 import {Dispatch} from "react";
 import {PasskeyKeypair} from "@mysten/sui/keypairs/passkey";
 import {getPasskeyProvider} from "@/configs/networkConfig";
-import {getBalance, getCoinMetadata, getPKInfos, PKInfoType} from "@/lib/contracts";
+import {getBalance, getCoinMetadata, getPKInfos, getPKListTypes, PKInfoType} from "@/lib/contracts";
 import {CoinMetadata} from "@mysten/sui/client";
 
 export type SwapTokenType = {
@@ -23,7 +23,8 @@ export type InitialStateType = {
     pkInfos: PKInfoType[],
     coinInfos: {
         [key: string]: CoinMetadata
-    }
+    },
+    pkListTypes: string[]
 }
 
 const initialState: InitialStateType = {
@@ -45,7 +46,8 @@ const initialState: InitialStateType = {
         }
     ],
     pkInfos: [],
-    coinInfos: {}
+    coinInfos: {},
+    pkListTypes: []
 }
 
 const infoStore = createSlice({
@@ -76,6 +78,9 @@ const infoStore = createSlice({
             [key: string]: CoinMetadata
         }}) {
             state.coinInfos = action.payload;
+        },
+        setPKListTypes(state, action: {payload: string[]}) {
+            state.pkListTypes = action.payload;
         }
     }
 });
@@ -96,7 +101,9 @@ const refreshAll = (publicKeyStr: string | null | undefined) => {
             dispatch(setPublicKeyStr(""));
         }
         const pkInfos = await getPKInfos(null);
-        dispatch(setCoinInfos(await getCoinInfos(pkInfos)));
+        const pkListTypes = await getPKListTypes();
+        dispatch(setCoinInfos(await getCoinInfos(pkInfos, pkListTypes)));
+        dispatch(setPKListTypes(pkListTypes));
         dispatch(setPKInfos(pkInfos));
     }
 }
@@ -109,7 +116,7 @@ const refreshBalance = (owner: string) => {
     }
 }
 
-async function getCoinInfos(pkInfos: PKInfoType[]) {
+async function getCoinInfos(pkInfos: PKInfoType[], pkListTypes: string[]) {
     const infos: {
         [key: string]: CoinMetadata
     } = {};
@@ -119,6 +126,11 @@ async function getCoinInfos(pkInfos: PKInfoType[]) {
         }
         if (!infos.hasOwnProperty(pkInfo.coin2.coinType)) {
             infos[pkInfo.coin2.coinType] = (await getCoinMetadata(pkInfo.coin2.coinType))!;
+        }
+    }
+    for (const coinType of pkListTypes) {
+        if (!infos.hasOwnProperty(coinType)) {
+            infos[coinType] = (await getCoinMetadata(coinType))!;
         }
     }
     return infos;
@@ -131,7 +143,8 @@ const {
     setNavTab,
     setProgressValue,
     setPKInfos,
-    setCoinInfos
+    setCoinInfos,
+    setPKListTypes
 } = infoStore.actions;
 
 export {
@@ -141,7 +154,8 @@ export {
     setNavTab,
     setProgressValue,
     setPKInfos,
-    setCoinInfos
+    setCoinInfos,
+    setPKListTypes
 };
 
 export {
