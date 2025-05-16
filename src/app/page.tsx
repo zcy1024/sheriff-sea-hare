@@ -25,7 +25,7 @@ export default function Home() {
             dispatch(setProgressValue(targetValue));
             if (targetValue >= 100)
                 clearInterval(intervalTimer);
-        }, 333);
+        }, 666);
     }, [dispatch]);
 
     const [ingInfos, setIngInfos] = useState<PKInfoType[]>([]);
@@ -39,8 +39,10 @@ export default function Home() {
     const [infos, setInfos] = useState<PKInfoType[]>([]);
     const [search, setSearch] = useState<string>("");
     useEffect(() => {
+        setInfos([]);
         const infos = navTab === "Ended" ? endedInfos : ingInfos;
-        setInfos(!search ? infos : infos.filter(info => info.id.search(search) !== -1));
+        const timer = setTimeout(() => setInfos(!search ? infos : infos.filter(info => info.id.search(search) !== -1)), 1);
+        return () => clearTimeout(timer);
     }, [navTab, ingInfos, endedInfos, search]);
 
     return (

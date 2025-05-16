@@ -89,7 +89,6 @@ const refreshAll = (publicKeyStr: string | null | undefined) => {
     return async (dispatch: ThunkDispatch<{
         info: InitialStateType
     }, undefined, UnknownAction> & Dispatch<UnknownAction>) => {
-        dispatch(setPKInfos([]));
         if (publicKeyStr) {
             const publicKey = new Uint8Array(publicKeyStr.split(',').map(item => Number(item)));
             const keypair = new PasskeyKeypair(publicKey, getPasskeyProvider(window.location.hostname));
@@ -103,6 +102,7 @@ const refreshAll = (publicKeyStr: string | null | undefined) => {
         }
         const pkInfos = await getPKInfos(null);
         const pkListTypes = await getPKListTypes();
+        dispatch(setPKInfos([]));
         dispatch(setCoinInfos(await getCoinInfos(pkInfos, pkListTypes)));
         dispatch(setPKListTypes(pkListTypes));
         dispatch(setPKInfos(pkInfos));

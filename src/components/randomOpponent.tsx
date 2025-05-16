@@ -64,7 +64,7 @@ export default function RandomOpponent() {
                 setOpen(false);
                 clearInterval(intervalTimer);
             }
-        }, 333);
+        }, 666);
     }
 
     return (

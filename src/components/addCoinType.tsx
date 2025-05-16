@@ -51,7 +51,7 @@ export default function AddCoinType() {
             dispatch(setProgressValue(targetValue));
             if (targetValue >= 100)
                 clearInterval(intervalTimer);
-        }, 333);
+        }, 666);
     }
 
     return (
