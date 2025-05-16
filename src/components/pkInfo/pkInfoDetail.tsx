@@ -80,7 +80,7 @@ export default function PKInfoDetail({info, isOdd, isLeft}: {info: PKInfoType, i
                 setOpen(false);
                 clearInterval(intervalTimer);
             }
-        }, 1000);
+        }, 333);
     }
 
     return (

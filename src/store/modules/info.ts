@@ -96,8 +96,8 @@ const refreshAll = (publicKeyStr: string | null | undefined) => {
             dispatch(setPublicKeyStr(""));
         }
         const pkInfos = await getPKInfos(null);
-        dispatch(setPKInfos(pkInfos));
         dispatch(setCoinInfos(await getCoinInfos(pkInfos)));
+        dispatch(setPKInfos(pkInfos));
     }
 }
 

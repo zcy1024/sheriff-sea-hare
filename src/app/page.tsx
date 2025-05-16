@@ -25,7 +25,7 @@ export default function Home() {
             dispatch(setProgressValue(targetValue));
             if (targetValue >= 100)
                 clearInterval(intervalTimer);
-        }, 1000);
+        }, 333);
     }, [dispatch]);
 
     const [ingInfos, setIngInfos] = useState<PKInfoType[]>([]);
