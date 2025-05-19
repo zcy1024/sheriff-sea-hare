@@ -6,6 +6,8 @@ The Supreme Judge of the Ocean.
 
 Add and randomly match opponents for a token, and the winner is determined by public voting.
 
+Want more information? [Click here](https://www.youtube.com/playlist?list=PL_JfNSpZuDJvHr7laj8QtuKpOPkJLITxz)
+
 ## Story
 
 All coins are equal in my eyes, just like all marine creatures need to wait for my judgment!
